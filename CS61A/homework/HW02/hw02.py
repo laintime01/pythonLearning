@@ -128,4 +128,42 @@ print(add_three(5))
 print(triple_five(1))
 
 # Q4 Church numerals
+def zero(f):
+    return lambda x:x
+def successor(n):
+    return lambda f:lambda x:f(n(f)(x))
 
+def one(f):
+    """ church numeral 1: same as successor(zero)"""
+    return lambda x:f(x)
+def two(f):
+    """ church numeral 1: same as successor(successor(zero))"""
+    return lambda x:f(f(x))
+
+def church_to_int(n):
+    """Convert the Church numeral n to a Python integer.
+
+    >>> church_to_int(zero)
+    0
+    >>> church_to_int(one)
+    1
+    >>> church_to_int(two)
+    2
+    >>> church_to_int(three)
+    3
+    """
+    def increase(x):
+        assert x >=0
+        if x ==0:
+            return 1
+        else:
+            return x+1
+    return n(increase)(0)
+
+three = successor(two)
+s = one(square)
+print(s(2))
+
+print(church_to_int(one))
+print(church_to_int(two))
+print(church_to_int(three))

@@ -1,6 +1,6 @@
 # CS 61A homework 02
-def add(x,y):
-    return x+y
+def add(x, y):
+    return x + y
 
 
 def square(x):
@@ -14,8 +14,9 @@ def triple(x):
 def increment(x):
     return x + 1
 
-def mul(x,y):
-    return x*y
+
+def mul(x, y):
+    return x * y
 
 
 # Q1 Product
@@ -63,13 +64,68 @@ def accumulate(combiner, base, n, term):
         k += 1
     return ans
 
+
 def summation_using_accumulate(n, term):
-    return accumulate(add,0,n,term)
+    return accumulate(add, 0, n, term)
+
+
 def product_using_accumulate(n, term):
-    return accumulate(mul,0,n,term)
+    return accumulate(mul, 0, n, term)
+
 
 print(f"Q2 answer-> {accumulate(lambda x, y: x + y + 1, 2, 3, square)}")
-print(accumulate(add,11,3,square))
+print(accumulate(add, 11, 3, square))
+
 
 # Q3 Make Repeater
+def make_repeater(func, n):
+    """
+    return the function that computes the nth application of
+    :param func:
+    :param n:
+    :return:
+    """
+
+    def repeat(x):
+        k = 0
+        while k < n:
+            x = func(x)
+            k += 1
+        return x
+
+    return repeat
+
+
+def compose1(func1, func2):
+    """
+    return a function f such that f(x) = func1(func2(x))
+    :param func1:
+    :param func2:
+    :return:
+    """
+
+    def f(x):
+        return func1(func2(x))
+
+    return f
+
+
+# challenge
+def make_c_repeater(n, func):
+    """
+    defining make_repeater using compose1 and accumulate function i a
+    single one-line return statement
+    :param n:
+    :param func:
+    :return:
+    """
+    return accumulate(compose1, lambda x: x, n, lambda k: func)
+
+
+add_three = make_repeater(increment, 3)
+triple_five = make_repeater(triple, 5)
+print(add_three(5))
+print(triple_five(1))
+
+# Q4 Church numerals
 

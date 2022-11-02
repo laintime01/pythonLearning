@@ -127,18 +127,45 @@ triple_five = make_repeater(triple, 5)
 print(add_three(5))
 print(triple_five(1))
 
+
 # Q4 Church numerals
 def zero(f):
-    return lambda x:x
+    return lambda x: x
+
+
 def successor(n):
-    return lambda f:lambda x:f(n(f)(x))
+    return lambda f: lambda x: f(n(f)(x))
+
 
 def one(f):
-    """ church numeral 1: same as successor(zero)"""
-    return lambda x:f(x)
+    """ church numeral 1: same as successor(zero)
+    def successor(zero):
+        return lambda f: lambda x: f(zero(f)(x))
+    not matter what argument in zero is, it return a func like f(x) = x
+    so zero(f)(x) ->f(x)
+    def successor(zero):
+        return lambda f:lambda x: f(x)
+    change name
+    def one(f):
+        return lambda x: f(x)
+    """
+    return lambda x: f(x)
+
+
 def two(f):
-    """ church numeral 1: same as successor(successor(zero))"""
-    return lambda x:f(f(x))
+    """ church numeral 1: same as successor(successor(zero))
+    successor(successor(zero)) = successor(one)   so
+    def successor(one):
+        return lambda f: lambda x: f(one(f)(x))
+    from one(f) we can figure that one(f)(x) = f(x) so
+    def successor(one):
+        return lambda f: lambda x: f(f(x))
+    change name
+    def two(f):
+        return lambda x: f(f(x))
+    """
+    return lambda x: f(f(x))
+
 
 def church_to_int(n):
     """Convert the Church numeral n to a Python integer.
@@ -152,13 +179,10 @@ def church_to_int(n):
     >>> church_to_int(three)
     3
     """
-    def increase(x):
-        assert x >=0
-        if x ==0:
-            return 1
-        else:
-            return x+1
-    return n(increase)(0)
+    # church is using high order function 's argument recombination time to show int
+    # lambda x: x+1 -> f(x) = x +1  0 is the init num of x
+    return n(lambda x: x + 1)(0)
+
 
 three = successor(two)
 s = one(square)
@@ -167,3 +191,50 @@ print(s(2))
 print(church_to_int(one))
 print(church_to_int(two))
 print(church_to_int(three))
+
+
+def add_church(m, n):
+    """ Return the church numeral for m+ n, for church numerals m and n
+    >>> church_to_int(add_church(two, three))
+    5
+    """
+    # m,n = one
+    # return lambda f: lambda x: m(f)(x) + n(f)(x) means m+n f(f(...f(x)))
+    # m +n = m(f)(n(f)(x)) = f(f(f..(f(n(f)(x)))))
+    # so ->
+    return lambda f: lambda x: m(f)(n(f)(x))
+
+
+print(church_to_int(add_church(two, three)))
+
+
+def mul_church(m, n):
+    """Return the Church numeral for m * n, for Church numerals m and n.
+        >>> four = successor(three)
+        >>> church_to_int(mul_church(two, three))
+        6
+        >>> church_to_int(mul_church(three, four))
+        12
+        """
+    # or return lambda f: lambda x: n(f)(x) * m(f)(x)
+    # n * m = n(m(f))(x) = m(f)+m(f)+..n in total..m(f) = n(m(f))
+    return lambda f: n(m(f))
+
+
+print(church_to_int(mul_church(two, three)))
+
+
+def pow_church(m, n):
+    """Return the Church numeral m ** n, for Church numerals m and n.
+        >>> church_to_int(pow_church(two, three))
+        8
+        >>> church_to_int(pow_church(three, two))
+        9
+        """
+    # or m(f)(x) ** n(f)(x)
+    # we need m ** n means n ge m ge m
+    # n(m) ->n(m(m(f)))
+    return n(m)
+
+
+print(church_to_int(pow_church(three, two)))

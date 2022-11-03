@@ -55,8 +55,7 @@ def unique_digits(n):
     print(len(set(" ".join(str(n)).split(" "))))
 
 
-
-def has_digit(n,k):
+def has_digit(n, k):
     """Return whether k is a digit in N"""
     digit_list = []
     while n > 0:
@@ -67,6 +66,34 @@ def has_digit(n,k):
     else:
         return False
 
-print(has_digit(10 ,1))
-print(has_digit(12,7))
+
+print(has_digit(10, 1))
+print(has_digit(12, 7))
 unique_digits(1313131)
+
+
+# sum of digits in number
+def sumDigits(n):
+    """ return sum of digits in number"""
+    return 0 if n == 0 else int(n % 10) + sumDigits(int(n // 10))
+
+
+no = 12345
+print(sumDigits(no))
+
+
+# double eight
+def double_eight(n):
+    """return true if n has two eights in a row"""
+    list_n = " ".join(str(n)).split(" ")
+    i = 0
+    while i < len(list_n)-1:
+        if list_n[i] == "8" and list_n[i+1] == "8":
+            return True
+        i += 1
+    return False
+
+
+
+
+print(double_eight(28313188))

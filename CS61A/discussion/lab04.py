@@ -90,7 +90,7 @@ def couple(s, t):
     [['c', 's'], [6, '1']]
     """
     assert len(s) == len(t)
-    return list([s[i],t[i]] for i in range(len(s)))
+    return list([s[i], t[i]] for i in range(len(s)))
 
 
 # optional questions
@@ -114,8 +114,29 @@ def double_eights(n):
     elif n < 100:
         return False
     else:
-        return double_eights(n//10)
+        return double_eights(n // 10)
 
 
 # List Comprehensions
 # Q7 Coordinates
+def coords(fn, seq, lower, upper):
+    """
+    >>> seq=[-4,- 2, 0, 1, 3]
+    >>> fn=lambda x:x**2
+    >>> coords(fn,seq,1,9)
+    [[-2, 4], [1, 1], [3, 9]]
+    """
+    return [[x, fn(x)] for x in seq if lower <= fn(x) <= upper]
+
+
+# Q8 Riffle Shuffle
+def riffle(deck):
+    """Produces a single, perfect riffle shuffle of DECK, consisting of
+    DECK[0], DECK[M], DECL[1], DECK[M+1]... where M is position of the
+    second half of the deck. Assume that len(DECK) is even
+    >>> riffle([3, 5, 4, 6])
+    [3, 4, 5, 6]
+    >>> riffle(range(20))
+    [0, 10, 1, 11, 2, 12, 3, 13, 4, 14, 5, 15, 6, 16, 7, 17, 8, 18, 9, 19]
+    """
+    return [deck[i // 2] if i % 2 == 0 else deck[len(deck) // 2 + i//2] for i in range(len(deck))]

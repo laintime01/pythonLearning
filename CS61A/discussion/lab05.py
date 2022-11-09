@@ -111,3 +111,19 @@ def sprout_leaves(t, leaves):
     if is_leaf(t):
         return tree(label(t), [tree(leaf) for leaf in leaves])
     return tree(label(t), [sprout_leaves(s, leaves) for s in branches(t)])
+
+
+# Q8 Preorder
+def preorder(t):
+    """Return a list of the entries in this tree in the order
+    that they would be visited by a preorder traversal
+    >>> preorder(tree(2, [tree(4, [tree(6)])]))
+    [2, 4, 6]
+    """
+
+    if not branches(t):
+        return [label(t)]
+    flattened = []
+    for branch in branches(t):
+        flattened += preorder(branch)
+    return [label(t)] + flattened

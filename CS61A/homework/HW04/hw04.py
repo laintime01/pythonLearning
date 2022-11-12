@@ -210,9 +210,10 @@ def sub_interval(x, y):
     neg_y = interval(-upper_bound(y), -lower_bound(y))
     return add_interval(x, neg_y)
 
+
 # interval division
 def div_interval(x, y):
     """Return division of interval"""
     assert not (lower_bound(y)) <= 0 <= upper_bound(y), 'Divide by zero'
-    reciprocal_y = interval(1/upper_bound(y), 1/lower_bound(y))
+    reciprocal_y = interval(1 / upper_bound(y), 1 / lower_bound(y))
     return mul_interval(x, reciprocal_y)

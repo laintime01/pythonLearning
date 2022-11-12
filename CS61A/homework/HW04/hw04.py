@@ -192,3 +192,27 @@ def lower_bound(x):
 def upper_bound(x):
     """Return the upper bound of interval x."""
     return x[1]
+
+
+# Q8 Interval Arithmetic
+def mul_interval(x, y):
+    p1 = lower_bound(x) * lower_bound(y)
+    p2 = lower_bound(x) * upper_bound(y)
+    p3 = upper_bound(x) * upper_bound(y)
+    p4 = upper_bound(x) * upper_bound(y)
+    return interval(min(p1, p2, p3, p4), max(p1, p2, p3, p4))
+
+
+# interval subtraction
+def sub_interval(x, y):
+    """Return the interval that contains the difference any value in x
+    and any value in y"""
+    neg_y = interval(-upper_bound(y), -lower_bound(y))
+    return add_interval(x, neg_y)
+
+# interval division
+def div_interval(x, y):
+    """Return division of interval"""
+    assert not (lower_bound(y)) <= 0 <= upper_bound(y), 'Divide by zero'
+    reciprocal_y = interval(1/upper_bound(y), 1/lower_bound(y))
+    return mul_interval(x, reciprocal_y)

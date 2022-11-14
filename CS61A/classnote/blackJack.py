@@ -69,4 +69,5 @@ def gamble(strategy, hands=1000):
 
 # begin gamble
 # do not gamble! lose too many times
-print("loser") if gamble(basic_strategy) <0 else print("Win!")
+# print("loser") if gamble(basic_strategy) <0 else print("Win!")
+print(gamble(basic_strategy))

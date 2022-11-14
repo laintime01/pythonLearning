@@ -33,7 +33,7 @@ def beg(target_function):
 
 @beg
 def say(say_please=False):
-    msg = 'Can you by me a beer ?'
+    msg = 'Can you buy me a beer ?'
     return msg, say_please
 
 

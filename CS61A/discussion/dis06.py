@@ -75,4 +75,36 @@ def primes_gen(n):
         return
     if is_prime(n):
         yield n
-    yield from primes_gen(n-1)
+    yield from primes_gen(n - 1)
+
+
+from CS61A.classnote.treeAbstraction import *
+
+
+def preorder(t):
+    """Return a list of the entries in this tree in the order that they
+    would be visited by a preorder traversal (see problem description).
+
+    >>> numbers = tree(1, [tree(2), tree(3, [tree(4), tree(5)]), tree(6, [tree(7)])])
+    >>> preorder(numbers)
+    [1, 2, 3, 4, 5, 6, 7]
+    >>> preorder(tree(2, [tree(4, [tree(6)])]))
+    [2, 4, 6]
+    """
+    if not branches(t):
+        return label(t)
+    flattened_branches = []
+    for branch in branches(t):
+        flattened_branches += preorder(branch)
+    return [label(t)] + flattened_branches
+
+
+from functools import reduce
+
+
+def add(x, y):
+    return x + y
+
+
+def pre_order_alt(t):
+    return reduce(add, [pre_order_alt(branch) for branch in branches(t)], [label(t)])

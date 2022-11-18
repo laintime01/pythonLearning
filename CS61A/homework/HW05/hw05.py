@@ -23,3 +23,8 @@ def merge(a, b):
         else:
             yield i
             i = next(a)
+
+# Q2 Generate Permutations
+def gen_perms(seq):
+    """Generates all permutations of the given sequence.
+    Each permutation is a list of the elements"""

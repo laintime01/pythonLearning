@@ -40,3 +40,23 @@ def gen_perms(seq):
         for p in gen_perms(seq[1:]):
             for i in range(len(seq)):
                 yield p[:i] + [seq[0]] + p[i:]
+
+
+# Q3 Yield Paths
+from CS61A.classnote.treeAbstraction import *
+
+
+def yield_paths(t, value):
+    """Yield all possible paths from the root of t to  a node with the label
+    value as a list.
+    >>> t1 = tree(1, [tree(2, [tree(3), tree(4, [tree(6)]), tree(5)]), tree(5)])
+    >>> t2 = tree(0, [tree(2, [t1])])
+    >>> path_to_2 = yield_paths(t2, 2)
+    >>> sorted(list(path_to_2))
+    [[0, 2], [0, 2, 1, 2]]
+    """
+    if label(t) == value:
+        yield [label(t)]
+    for b in branches(t):
+        for path in yield_paths(b, value):
+            yield [label(t)] + path

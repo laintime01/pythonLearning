@@ -139,6 +139,7 @@ class FreeChecking(Account):
     """
     withdraw_fee = 1
     free_withdrawals = 2
+
     def __init__(self, account_holder):
         super().__init__(account_holder)
         self.withdraws = 0
@@ -151,5 +152,81 @@ class FreeChecking(Account):
         return super().withdraw(amount + fee)
 
 
+# Q4 Making Cards
+from Deck import *
 
 
+class Card:
+    cardtype = 'Staff'
+
+    def __init__(self, name, attack, defense):
+        """
+        Create a Card object with a name, attack,
+        and defense.
+        >>> staff_member = Card('staff', 400, 300)
+        >>> staff_member.name
+        'staff'
+        >>> staff_member.attack
+        400
+        >>> staff_member.defense
+        300
+        >>> other_staff = Card('other', 300, 500)
+        >>> other_staff.attack
+        300
+        >>> other_staff.defense
+        500
+        """
+        self.name = name
+        self.attack = attack
+        self.defense = defense
+
+    def power(self, opponent_card):
+        """
+        Calculate power as:
+        (player card's attack) - (opponent card's defense)
+        >>> staff_member = Card('staff', 400, 300)
+        >>> other_staff = Card('other', 300, 500)
+        >>> staff_member.power(other_staff)
+        -100
+        >>> other_staff.power(staff_member)
+        0
+        >>> third_card = Card('third', 200, 400)
+        >>> staff_member.power(third_card)
+        0
+        >>> third_card.power(staff_member)
+        -100
+        """
+        return self.attack - opponent_card.defense
+
+
+# Q5 Making a player
+class Player:
+    def __init__(self, deck, name):
+        """Initialize a Player object.
+        A Player starts the game by drawing 5 cards from their deck. Each turn,
+        a Player draws another card from the deck and chooses one to play.
+        >>> test_card = Card('test', 100, 100)
+        >>> test_deck = Deck([test_card.copy() for _ in range(6)])
+        >>> test_player = Player(test_deck, 'tester')
+        >>> len(test_deck.cards)
+        1
+        >>> len(test_player.hand)
+        5
+        """
+        self.name = name
+        self.deck = deck
+        self.hand = [deck.draw() for _ in range(5)]
+
+    def draw(self):
+        """Draw a card from the player's deck and add it to their hand.
+        >>> test_card = Card('test', 100, 100)
+        >>> test_deck = Deck([test_card.copy() for _ in range(6)])
+        >>> test_player = Player(test_deck, 'tester')
+        >>> test_player.draw()
+        >>> len(test_deck.cards)
+        0
+        >>> len(test_player.hand)
+        6
+        """
+        assert not self.deck.is_empty(), 'Deck is empty'
+        self.hand.append(self.deck.draw())

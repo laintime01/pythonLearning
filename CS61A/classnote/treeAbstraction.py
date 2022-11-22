@@ -101,6 +101,13 @@ def count_paths(t, total):
     return found + sum(count_paths(b, total- label(t)) for b in branches(t))
 
 
+def prune(t, n):
+    """Prune all sub-trees whose label is n."""
+    t.branches = [b for b in branches(t) if b.label != n]
+    for b in t.branches:
+        prune(b, n)
+
+
 t = tree(1, [tree(5, [tree(7)]), tree(6)])
 print(t)
 print(label(t))

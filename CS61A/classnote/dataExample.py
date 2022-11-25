@@ -58,7 +58,46 @@ print(digit_dict([5, 8, 13, 21, 34, 55, 89]))
 def all_have_equals(l):
     """Does every elements equal some other element in l?"""
     return all([l[i] in l[:i] + l[i + 1:] for i in range(len(l))])
-print(all_have_equals([4,3,2,3,2,4,5,5]))
+
+
+print(all_have_equals([4, 3, 2, 3, 2, 4, 5, 5]))
 
 s = 'Beginning'
 print(s.replace('n', 'N', -1))
+
+from CS61A.classnote.linkedList import *
+
+
+# Example Linked lists
+def ordered(s):
+    """Check if the linked list is ordered"""
+    if s is Link.empty or s.rest is Link.empty:
+        return True
+    elif s.first > s.rest.first:
+        return False
+    else:
+        return ordered(s.rest)
+
+
+def merge(s, t):
+    """Return a sorted Link with the elements of sorted s&t"""
+    if s is Link.empty:
+        return t
+    if t is Link.empty:
+        return s
+    elif s.first <= t.first:
+        return Link(s.first, merge(s.rest, t))
+    else:
+        return Link(t.first, merge(s, t.rest))
+
+def merge_without_calling_link(s, t):
+    if s is Link.empty:
+        return t
+    if t is Link.empty:
+        return s
+    elif s.first <= t.first:
+        s.rest = merge_without_calling_link(s.rest, t)
+        return s
+    else:
+        t.rest = merge_without_calling_link(t.rest, s)
+        return t

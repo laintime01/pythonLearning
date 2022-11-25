@@ -32,3 +32,18 @@ def duplicate_link(lnk, val):
         duplicate_link(r, val)
     else:
         duplicate_link(lnk.reset, val)
+
+# Q4 Tree
+from CS61A.classnote.treeAbstraction import *
+
+# Q5 Cumulative Mul
+def cumulative_mul(t):
+    """
+    >>> t = tree()
+    """
+    if t.branches is None:
+        return t
+    else:
+        for b in t.branches:
+            cumulative_mul(b)
+            t.label *= b.label

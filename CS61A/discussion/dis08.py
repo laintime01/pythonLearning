@@ -62,4 +62,37 @@ def multiply_lnks(lst_of_lnks):
     lst_of_lnks_rest = [l.rest for l in lst_of_lnks]
     return Link(first, multiply_lnks(lst_of_lnks_rest))
 
+
 # Q5 Flip Two
+def flip_two(s):
+    """
+    >>> one_link = Link(1,Link(2,Link(3,Link(4,Link(5)))))
+    >>> flip_two(one_link)
+    >>> one_link
+    Link(2, Link(1, Link(4, Link(3, Link(5)))))
+    """
+    if s is Link.empty or s.rest is Link.empty:
+        return s
+    s.first, s.rest.first = s.rest.first, s.first
+    flip_two(s.rest.rest)
+
+# Q6 Make Even
+class Tree:
+    def __init__(self, label, branches=[]):
+        for b in branches:
+            assert isinstance(b, Tree)
+        self.label = label
+        self.branches = branches
+
+    def is_leaf(self):
+        return not self.branches
+
+def make_even(t):
+    """
+    >>> t = Tree(1, [Tree(2, [Tree(3)]), Tree(4), Tree(5)])
+    >>> make_even(t)
+    >>> t.label
+    2
+    >>> t.branches[0].branches[0].label
+    4
+    """

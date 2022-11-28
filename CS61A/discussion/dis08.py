@@ -76,6 +76,7 @@ def flip_two(s):
     s.first, s.rest.first = s.rest.first, s.first
     flip_two(s.rest.rest)
 
+
 # Q6 Make Even
 class Tree:
     def __init__(self, label, branches=[]):
@@ -87,6 +88,7 @@ class Tree:
     def is_leaf(self):
         return not self.branches
 
+
 def make_even(t):
     """
     >>> t = Tree(1, [Tree(2, [Tree(3)]), Tree(4), Tree(5)])
@@ -96,3 +98,15 @@ def make_even(t):
     >>> t.branches[0].branches[0].label
     4
     """
+    if t.label % 2 != 0:
+        t.label += 1
+    for b in t.branches:
+        make_even(b)
+
+# Q7 Add Leaves
+def add_d_leaves(t, v):
+    def add_leaves(t,d):
+        for b in t.branches:
+            add_leaves(b, d+1)
+        t.branches.extend([Tree(v) for _ in range(d)])
+    add(t, 0)

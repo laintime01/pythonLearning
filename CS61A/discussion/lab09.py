@@ -16,8 +16,11 @@ def subseqs(s):
     >>> subseqs([])
     [[]]
     """
-    if s is []:
+    if not s:
         return [[]]
     else:
         subset = subseqs(s[1:])
         return insert_into_all(s[0], subset) + subset
+
+# Q2 Non-Decreasing subsequences
+def

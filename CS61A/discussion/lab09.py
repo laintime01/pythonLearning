@@ -43,6 +43,22 @@ def non_sub(s):
             a = subseq_helper(s[1:], s[0])
             b = subseq_helper(s[1:], prev)
             return insert_into_all(s[0], a) + b
+
     return subseq_helper(s, 0)
 
+
 # Q3 number of trees
+def num_trees(n):
+    """return number of trees
+    >>> num_trees(1)
+    1
+    >>> num_trees(2)
+    1
+    >>> num_trees(3)
+    2
+    >>> num_trees(8)
+    429
+    """
+    if n == 1:
+        return 1
+    return sum(num_trees(k) * num_trees(n - k) for k in range(1, n))

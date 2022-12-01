@@ -62,3 +62,16 @@ def num_trees(n):
     if n == 1:
         return 1
     return sum(num_trees(k) * num_trees(n - k) for k in range(1, n))
+
+
+# Q4 partition generator
+def partition_gen(n):
+    def yield_helper(j, k):
+        if j == 0:
+            yield []
+        elif k > 0 and j > 0:
+            for small_part in yield_helper(j - k, k):
+                yield [k] + small_part
+            yield from yield_helper(j, k - 1)
+
+    yield from yield_helper(n, n)

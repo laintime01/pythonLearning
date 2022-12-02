@@ -87,20 +87,52 @@ class VendingMachine:
     'Nothing left to vend. Please restock, Here is your $15.'
     >>> v.restock(2)
     'Current candy stock: 2'
+    >>> v.vend()
+    'Please update your balance with $10 more funds.'
+    >>> v.addfunds(7)
+    'Current balance: $7'
+    >>> v.vend()
+    'Please update your balance with $3 more funds.'
+    >>> v.addfunds(5)
+    'Current balance: $12'
+    >>> v.vend()
+    'Here is your candy and $2 change'
+    >>> v.addfunds(10)
+    'Current balance: $10'
+    >>> v.vend()
+    'Here is your candy.'
+
+
     """
 
     def __init__(self, product, price):
         self.product = product
         self.price = price
         self.stock = 0
+        self.fund = 0
 
     def vend(self):
         if self.stock == 0:
             return 'Nothing left to vend. Please restock'
+        elif self.price > self.fund:
+            return f'Please update your balance with ${self.price - self.fund} more funds.'
+        elif self.price == self.fund:
+            self.stock -= 1
+            self.fund = 0
+            return 'Here is your candy.'
+        else:
+            diff = self.fund - self.price
+            self.stock -= 1
+            self.fund = 0
+            return f'Here is your candy and ${diff} change'
 
     def addfunds(self, n):
         if self.stock == 0:
             return f'Nothing left to vend. Please restock, Here is your ${n}.'
+        else:
+            self.fund += n
+            return f'Current balance: ${self.fund}'
 
     def restock(self, n):
-        return f'Current candy stock: {n + self.stock}'
+        self.stock += n
+        return f'Current candy stock: {self.stock}'

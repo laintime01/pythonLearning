@@ -75,3 +75,32 @@ def partition_gen(n):
             yield from yield_helper(j, k - 1)
 
     yield from yield_helper(n, n)
+
+
+# Q5 Vending machine
+class VendingMachine:
+    """A vending machine that vends some product for some price
+    >>> v = VendingMachine('candy', 10)
+    >>> v.vend()
+    'Nothing left to vend. Please restock'
+    >>> v.addfunds(15)
+    'Nothing left to vend. Please restock, Here is your $15.'
+    >>> v.restock(2)
+    'Current candy stock: 2'
+    """
+
+    def __init__(self, product, price):
+        self.product = product
+        self.price = price
+        self.stock = 0
+
+    def vend(self):
+        if self.stock == 0:
+            return 'Nothing left to vend. Please restock'
+
+    def addfunds(self, n):
+        if self.stock == 0:
+            return f'Nothing left to vend. Please restock, Here is your ${n}.'
+
+    def restock(self, n):
+        return f'Current candy stock: {n + self.stock}'

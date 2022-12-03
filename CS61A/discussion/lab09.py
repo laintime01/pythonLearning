@@ -136,3 +136,17 @@ class VendingMachine:
     def restock(self, n):
         self.stock += n
         return f'Current candy stock: {self.stock}'
+
+# Q6 Trade
+def trade(first, second):
+    m,n = 1,1
+    equal_prefix = lambda :sum(first[:m]) == sum(second[:n])
+    while m <= len(first) and n <= len(second) and not equal_prefix():
+        if sum(first[:m]) <sum(second[:n]):
+            m += 1
+        else:
+            n += 1
+    if equal_prefix():
+        first[:m], second[:n] = second[:n], first[:m]
+        return 'Deal'
+    return 'No Deal'

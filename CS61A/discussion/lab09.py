@@ -137,12 +137,13 @@ class VendingMachine:
         self.stock += n
         return f'Current candy stock: {self.stock}'
 
+
 # Q6 Trade
 def trade(first, second):
-    m,n = 1,1
-    equal_prefix = lambda :sum(first[:m]) == sum(second[:n])
+    m, n = 1, 1
+    equal_prefix = lambda: sum(first[:m]) == sum(second[:n])
     while m <= len(first) and n <= len(second) and not equal_prefix():
-        if sum(first[:m]) <sum(second[:n]):
+        if sum(first[:m]) < sum(second[:n]):
             m += 1
         else:
             n += 1
@@ -150,3 +151,26 @@ def trade(first, second):
         first[:m], second[:n] = second[:n], first[:m]
         return 'Deal'
     return 'No Deal'
+
+
+# Q7 shuffle
+def card(n):
+    """Return the card numeral as a string for a positive n <= 13."""
+    assert type(n) == int and 0 < n <= 13, 'Bad card n'
+    specials = {1: 'A', 11: 'J', 12: 'Q', 13: 'K'}
+    return specials.get(n, str(n))
+
+
+def shuffle(cards):
+    """Return a shuffled list that interleaves the two halves of cards
+    >>> shuffle(range(6))
+    [0, 3, 1, 4, 2, 5]
+    >>> suits = ['H', 'D', 'S', 'C']
+    """
+    assert len(cards) % 2 ==0, 'len(cards) must be even'
+    half = len(cards) // 2
+    shuffled = []
+    for i in range(half):
+        shuffled.append(cards[i])
+        shuffled.append(cards[half+i])
+    return shuffled

@@ -167,10 +167,34 @@ def shuffle(cards):
     [0, 3, 1, 4, 2, 5]
     >>> suits = ['H', 'D', 'S', 'C']
     """
-    assert len(cards) % 2 ==0, 'len(cards) must be even'
+    assert len(cards) % 2 == 0, 'len(cards) must be even'
     half = len(cards) // 2
     shuffled = []
     for i in range(half):
         shuffled.append(cards[i])
-        shuffled.append(cards[half+i])
+        shuffled.append(cards[half + i])
     return shuffled
+
+
+# Q8 Linked List
+# Insert
+from CS61A.classnote.linkedList import *
+
+
+def insert(link, value, index):
+    """Insert a value into a Link at the given index
+    >>> link = Link(1, Link(2, Link(3)))
+    >>> print(link)
+    <1 2 3>
+    >>> other_link = link
+    >>> insert(link, 9001, 0)
+    >>> print(link)
+    <9001 1 2 3>
+    """
+    if index == 0:
+        link.rest = Link(link.first, link.rest)
+        link.first = value
+    elif link.rest is Link.empty:
+        raise IndexError("Out of bounds!")
+    else:
+        insert(link.rest, value, index-1)

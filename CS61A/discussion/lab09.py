@@ -136,3 +136,158 @@ class VendingMachine:
     def restock(self, n):
         self.stock += n
         return f'Current candy stock: {self.stock}'
+
+
+# Q6 Trade
+def trade(first, second):
+    m, n = 1, 1
+    equal_prefix = lambda: sum(first[:m]) == sum(second[:n])
+    while m <= len(first) and n <= len(second) and not equal_prefix():
+        if sum(first[:m]) < sum(second[:n]):
+            m += 1
+        else:
+            n += 1
+    if equal_prefix():
+        first[:m], second[:n] = second[:n], first[:m]
+        return 'Deal'
+    return 'No Deal'
+
+
+# Q7 shuffle
+def card(n):
+    """Return the card numeral as a string for a positive n <= 13."""
+    assert type(n) == int and 0 < n <= 13, 'Bad card n'
+    specials = {1: 'A', 11: 'J', 12: 'Q', 13: 'K'}
+    return specials.get(n, str(n))
+
+
+def shuffle(cards):
+    """Return a shuffled list that interleaves the two halves of cards
+    >>> shuffle(range(6))
+    [0, 3, 1, 4, 2, 5]
+    >>> suits = ['H', 'D', 'S', 'C']
+    """
+    assert len(cards) % 2 == 0, 'len(cards) must be even'
+    half = len(cards) // 2
+    shuffled = []
+    for i in range(half):
+        shuffled.append(cards[i])
+        shuffled.append(cards[half + i])
+    return shuffled
+
+
+# Q8 Linked List
+# Insert
+from CS61A.classnote.linkedList import *
+
+
+def insert(link, value, index):
+    """Insert a value into a Link at the given index
+    >>> link = Link(1, Link(2, Link(3)))
+    >>> print(link)
+    <1 2 3>
+    >>> other_link = link
+    >>> insert(link, 9001, 0)
+    >>> print(link)
+    <9001 1 2 3>
+    """
+    if index == 0:
+        link.rest = Link(link.first, link.rest)
+        link.first = value
+    elif link.rest is Link.empty:
+        raise IndexError("Out of bounds!")
+    else:
+        insert(link.rest, value, index - 1)
+
+
+# Q9 Deep linked list length
+def deep_len(s):
+    """Return the deep length of a possibly deep linked list.
+    >>> deep_len(Link(1, Link(2, Link(3))))
+    3
+    """
+    if s is Link.empty:
+        return 0
+    elif not isinstance(s, Link):
+        return 1
+    else:
+        return deep_len(s.first) + deep_len(s.rest)
+
+
+# Q10 Linked lists as strings
+def make_to_string(front, mid, back, empty_repr):
+    """Return a function that turns linked lists to strings
+    """
+
+    def printer(lnk):
+        if lnk is Link.empty:
+            return empty_repr
+        else:
+            return front + str(lnk.first) + mid + printer(lnk.rest) + back
+
+    return printer
+
+
+# Trees
+# Q11 Long Paths
+from CS61A.classnote.treeAbstraction import *
+
+
+def long_paths(t, n):
+    """Return a list of all paths in t with length at least n.
+    """
+    if n <= 0 and t.is_leaf():
+        return [[t.label]]
+    paths = []
+    for b in t.branches:
+        for path in long_paths(b, n - 1):
+            paths.append([t.label] + path)
+    return paths
+
+
+# Q12 Reverse Other
+def reverse_other(t):
+    def helper(t, need_reverse):
+        if t.is_leaf():
+            return
+        new_labs = [child.label for child in t.branches][::-1]
+        for i in range(len(t.branches)):
+            child = t.branches[i]
+            helper(child, not need_reverse)
+            if need_reverse:
+                child.label = new_labs[i]
+
+    helper(t, True)
+
+
+# Efficiency
+# Q13 Efficiency Practice
+def count_partitions(n, m):
+    if n == 0:
+        return 1
+    elif n < 0:
+        return 0
+    elif m == 0:
+        return 0
+    else:
+        with_m = count_partitions(n - m, m)
+        without_m = count_partitions(n, m - 1)
+        return without_m + with_m
+
+
+def is_palindrome(s):
+    """Return whether a list of numbers s is a palindrome"""
+    return all([s[i] == s[len(s) -i -1] for i in range(len(s))])
+
+def binary_search(lst, n):
+    low = 0
+    high = len(lst)
+    while low <= high:
+        middle = (low+high) //2
+        if lst[middle] == n:
+            return middle
+        elif n < lst[middle]:
+            high = middle -1
+        else:
+            low = middle + 1
+    return -1

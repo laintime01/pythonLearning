@@ -28,7 +28,7 @@ class User:
     def __init__(self, name, password):
         self.name = name
         self.password = password
-
+    # good way to use class property
     @property
     def password(self):
         raise AttributeError('Password is write-only')

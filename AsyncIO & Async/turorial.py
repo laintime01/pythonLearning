@@ -3,7 +3,8 @@ import asyncio
 
 async def main():
     print("elden ring")
-    await foo('text')
+    task = asyncio.create_task(foo('text'))
+    print('finished')
 
 
 async def foo(text):

@@ -15,6 +15,14 @@ class Solution(object):
             length += 1
             temp = temp.next
         new_node = head
-        for _ in range (length // 2):
+        for _ in range(length // 2):
             new_node = new_node.next
         return new_node
+
+
+def middleNode(head):
+    slow, fast = head, head
+    while slow.next is not None and fast.next is not None:
+        slow = slow.next
+        fast = fast.next.next
+    return slow

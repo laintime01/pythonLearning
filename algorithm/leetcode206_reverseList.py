@@ -14,3 +14,16 @@ class Solution(object):
         head.next.next = head
         head.next = None
         return new_tail
+
+def reverseList(head):
+    """
+    :param head:
+    :return:
+    """
+    pre = None
+    while head:
+        head_next = head.next
+        head.next = pre
+        pre = head
+        head = head_next
+    return pre

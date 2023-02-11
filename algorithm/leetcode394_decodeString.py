@@ -21,4 +21,4 @@ class Solution(object):
 
 
 
-print(Solution().decodeStr("3[a]2[bc]"))
+print(Solution().decodeStr("3[a2[c]]"))

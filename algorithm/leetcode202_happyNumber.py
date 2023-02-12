@@ -1,6 +1,6 @@
 class Solution(object):
     def isHappy(self, n):
-        already = set()
+        already = []
         while n != 1:
             total = 0
             while n > 0:
@@ -10,8 +10,9 @@ class Solution(object):
             if total in already:
                 return False
             else:
-                already.add(total)
+                already.append(total)
             n = total
         return True
+
 
 print(Solution().isHappy(2))

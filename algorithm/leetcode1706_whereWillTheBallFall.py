@@ -14,6 +14,7 @@ class Solution(object):
                 place += go  # 左右都是+ 左为-1+ -1 右为 1+ 1
                 # place<0:碰到左边墙, place ==n,因为最右边是n-1，所以是碰到右边墙
                 # 如果左右不一样，说明遇见了V形
+                print(f'go: {go} and place: {place}')
                 if place < 0 or place == n or j[place] != go:
                     break
             else:  # 成功到达底部

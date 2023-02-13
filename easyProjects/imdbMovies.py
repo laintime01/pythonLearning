@@ -1,3 +1,4 @@
+import bisect
 import random
 
 movies_list = [{'name': 'the dark night', 'year': 2008, 'rating': '9'},
@@ -23,16 +24,11 @@ class Movies():
         'd':st6
         """
         rating_num = float(self.rating)
-        if rating_num >= 8.5:
-            return 'S'
-        elif rating_num >= 8:
-            return 'A'
-        elif rating_num >= 7:
-            return 'B'
-        elif rating_num >= 6:
-            return 'C'
-        else:
-            return 'D'
+        bp = (6, 7, 8, 8.5)  # breakpoint
+        grade = ('D', 'C', 'B', 'A', 'S')
+
+        index = bisect.bisect(bp, rating_num)
+        return grade[index]
 
 
 # sort movies list
@@ -42,17 +38,20 @@ def get_movies_list_sorted(movies, sorted_type):
     :param sorted_type: name,year,rating,random
     :return:
     """
-    if sorted_type == 'name':
-        sorted_movies = sorted(movies, key=lambda movies: movies.name.lower())
-    elif sorted_type == 'year':
-        sorted_movies = sorted(movies, key=lambda movies: movies.year, reverse=True)
-    elif sorted_type == 'rating':
-        sorted_movies = sorted(movies, key=lambda movies: float(movies.rating), reverse=True)
-    elif sorted_type == 'random':
-        sorted_movies = sorted(movies, key=lambda movies: random.random())
-    else:
+    sorting_algos = {
+        # sorting_type: (key_func, reverse)
+        'name': (lambda movie: movie.name.lower(), False),
+        'rating': (lambda movie: float(movie.rating), True),
+        'year': (lambda  movie: movie.year, True),
+        'random': (lambda movie: random.random(), False)
+    }
+    try:
+        key_func, reverse = sorting_algos[sorted_type]
+    except KeyError:
         raise RuntimeError(f'Unknown sorting type: {sorted_type}')
+    sorted_movies = sorted(movies, key=key_func, reverse=reverse)
     return sorted_movies
+
 
 
 def main():

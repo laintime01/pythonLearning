@@ -1,40 +1,31 @@
+from collections import Counter
+
+
 class Solution(object):
     def longestPalindrome(self, words):
         """
         :param words: List[str]
         :return:int
         """
+        count = Counter(words)
+        answer = 0
+        central = False
 
-        def get_num(first, second):
-            return (ord(first) - 97) * 26 + ord(second) - 97
-
-        mid_cnt = 0
-        res = 0
-        num_dict = {}
-        for word in words:
+        for word, count_word in count.items():
             if word[0] == word[1]:
-                mid_flag = True
-            else:
-                mid_flag = False
+                if count_word % 2 == 0:
+                    answer += count_word
+                else:
+                    answer += count_word - 1
+                    central = True
+            elif word[0] < word[1]:
+                answer += 2 * min(count_word, count[word[1] + word[0]])
 
-            reverse_num = get_num(word[1], word[0])
-            if num_dict.get(reverse_num, 0) > 0:
-                res += 4
-                num_dict[reverse_num] -= 1
-                if mid_flag:
-                    mid_cnt -= 1
-            else:
-                num = get_num(word[0], word[1])
-                num_dict[num] = num_dict.get(num, 0) + 1
-                if mid_flag:
-                    mid_cnt += 1
+        if central:
+            answer += 1
 
-        if mid_cnt > 0:
-            res += 2
-
-        print(res)
-        return res
+        return 2 * answer
 
 
-words = ["lc", "cl", "gg"]
+words = ["ab", "ty", "yt", "lc", "cl", "ab"]
 Solution().longestPalindrome(words)

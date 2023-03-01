@@ -5,48 +5,25 @@ class Solution(object):
         :type target: int
         :rtype: bool
         """
+        rows, cols = len(matrix), len(matrix[0])
+        row = 0
 
-        m = len(matrix)
-        if m == 0:
-            return False
-        n = len(matrix[0])
-        if n == 0:
-            return False
+        for i in range(rows):
+            if matrix[i][0] > target:
+                row = i - 1
+                break
 
-        line = None
-        if target < matrix[0][0]:
-            return False
-        elif target > matrix[m - 1][0]:
-            line = m - 1
         else:
-            left = 0
-            right = m - 1
-            while left <= right:
-                if left >= right - 1:
-                    if matrix[right][0] == target:
-                        return True
-                    elif matrix[right][0] < target:
-                        line = right
-                    else:
-                        line = left
-                    break
-                mid = (left + right) / 2
-                if matrix[mid][0] == target:
-                    return True
-                elif matrix[mid][0] > target:
-                    right = mid - 1
-                else:
-                    left = mid
+            row = rows - 1
 
-        left = 0
-        right = n - 1
-        while left <= right:
-            mid = (left + right) / 2
-            if matrix[line][mid] == target:
+        for j in range(cols):
+            if matrix[row][j] == target:
                 return True
-            elif matrix[line][mid] > target:
-                right = mid - 1
-            else:
-                left = mid + 1
 
         return False
+
+
+matrix = [[1, 3, 5, 7], [10, 11, 16, 20], [23, 30, 34, 60]]
+target = 3
+
+print(Solution().searchMatrix(matrix, target))

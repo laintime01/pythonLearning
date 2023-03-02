@@ -4,22 +4,20 @@ class TreeNode:
         self.left = left
         self.right = right
 
+
 class Solution(object):
-    def diameterOfBinaryTree(self, root):
-        """
-        :param root: TreeNode
-        :return: int
-        """
-        self.res = 1
-        self.maxDepth(root)
+    def __init__(self):
+        self.diameter = 0
 
-        return self.res-1
+    def depth(self, node):
+        left = self.depth(node.left) if node.left else 0
+        right = self.depth(node.right) if node.right else 0
 
-    def maxDepth(self, now):
-        if not now:
-            return 0
-        maxL = self.maxDepth(now.left)
-        maxR = self.maxDepth(now.right)
-        self.res = max(self.res, (maxR+maxL+1))
-        maxD = max(maxL, maxR) + 1
-        return maxD
+        if left + right > self.diameter:
+            self.diameter = left + right
+        # make sure the parent nodes get the correct depth from this node
+        return 1 + (left if left > right else right)
+
+    def diameterBinaryTree(self, root):
+        self.depth(root)
+        return self.diameter
